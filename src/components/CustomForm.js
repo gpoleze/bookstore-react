@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import FormValidator from '../utils/FormValidator';
 
 
 class CustomForm extends Component {
@@ -16,9 +17,17 @@ class CustomForm extends Component {
     }
 
     submitForm = () => {
-        this.props.submitListener(this.state);
-        this.setState(this.stateInicial);
+        const formValidator = new FormValidator({
+            field: 'name',
+            method: 'isEmpty'
+        });
 
+        if (formValidator.valid(this.state)){
+            this.props.submitListener(this.state);
+            this.setState(this.stateInicial);
+        } else {
+            console.log('Submit blocked');
+        }
     };
 
 
